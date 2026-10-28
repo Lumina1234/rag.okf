@@ -1,0 +1,11 @@
+Order_ID,Order_Date,Product,Category,Region,Sales_Channel,Customer_Segment,Quantity,Unit_Price,Discount_Percent,Revenue,Cost,Profit,Customer_Satisfaction
+ORD-1002,2026-03-24,Wireless Headphones,Electronics,North,Distributor,Individual,2,180,10,324.0,196.45,127.55,5
+ORD-1003,2026-02-07,Wireless Headphones,Electronics,South,Distributor,Individual,20,180,15,3060.0,1705.37,1354.63,3
+ORD-1004,2026-05-26,Monitor 27,Electronics,North,Online,Individual,8,310,15,2108.0,1266.28,841.72,4
+ORD-1005,2026-06-04,Coffee Maker,Appliances,North,Retail,Enterprise,10,145,5,1377.5,825.84,551.66,4
+ORD-1006,2026-08-18,Coffee Maker,Appliances,North,Retail,Enterprise,21,145,10,2740.5,2016.02,724.48,5
+ORD-1007,2026-02-02,Standing Desk,Furniture,South,Retail,Enterprise,22,540,10,10692.0,7300.4,3391.6,3
+ORD-1008,2026-06-06,Wireless Headphones,Electronics,East,Retail,Enterprise,14,180,10,2268.0,1483.92,784.08,5
+ORD-1009,2026-03-18,Standing Desk,Furniture,South,Online,SMB,24,540,0,12960.0,8943.7,4016.3,4
+ORD-1010,2026-01-08,Standing Desk,Furniture,North,Retail,SMB,22,540,5,11286.0,7984.41,3301.59,4
+ORD-1011,2026-08-13,Wireless Headphones,Electronics,West,Online,SMB,8,180,10,1296.0,776.18,519.82,3

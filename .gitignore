@@ -1,0 +1,132 @@
+# =========================================================================
+# Environment Variables & Secrets (CRITICAL: NEVER COMMIT)
+# =========================================================================
+.env
+.env.*
+*.env
+backend/.env
+frontend/.env
+!.env.example
+!backend/.env.example
+
+# =========================================================================
+# SSL Certificates & Private Keys (CRITICAL: NEVER COMMIT)
+# =========================================================================
+certs/
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.csr
+
+# =========================================================================
+# SQLite Databases & Transaction Logs (CRITICAL: NEVER COMMIT)
+# =========================================================================
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+backend/database/*.db
+backend/database/*.db-shm
+backend/database/*.db-wal
+backend/rag.db
+rag.db
+
+# =========================================================================
+# User Uploads, Documents & Storage (PRIVACY: NEVER COMMIT)
+# =========================================================================
+backend/uploads/
+uploads/
+*.pdf
+*.docx
+*.xlsx
+*.xls
+
+# =========================================================================
+# Vector Store & Embeddings Index (LOCAL RUNTIME CACHE)
+# =========================================================================
+backend/vector_db/
+vector_db/
+*.faiss
+*.pkl
+
+# =========================================================================
+# Runtime Logs & Generated Charts
+# =========================================================================
+backend/logs/
+logs/
+*.log
+backend/charts/
+charts/
+
+# =========================================================================
+# Temporary Debug, Stream & Audit Traces
+# =========================================================================
+audit.json
+audit_literals.json
+chat_stream.txt
+proxy_chat.txt
+backend/chat_stream.txt
+backend/proxy_chat.txt
+backend/package-lock.json
+
+# =========================================================================
+# Python Artifacts & Virtual Environments
+# =========================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+!frontend/src/lib/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+ENV/
+
+# =========================================================================
+# Node & Frontend Build Artifacts
+# =========================================================================
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+frontend/.vite/
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================================================================
+# IDEs & System Files
+# =========================================================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+
