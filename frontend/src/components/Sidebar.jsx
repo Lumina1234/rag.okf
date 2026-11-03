@@ -13,7 +13,8 @@ import {
   ChevronDown,
   Activity,
   Shield,
-  FileText
+  FileText,
+  Building
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { workspaceAPI } from '../lib/api';
@@ -119,6 +120,10 @@ const Sidebar = ({ systemStatus }) => {
         <NavLink to="/summarize" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <span className="nav-icon"><FileText size={16} /></span>
           <span>Summarize</span>
+        </NavLink>
+        <NavLink to="/org-selection" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon"><Building size={16} /></span>
+          <span>Edu & Biz Portals</span>
         </NavLink>
         
         {activeWorkspace?.workspace_type === 'business' && (

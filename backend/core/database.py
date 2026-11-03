@@ -178,6 +178,200 @@ class ChartHistory(Base):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+#  Security & Organization Layer Models
+# ─────────────────────────────────────────────────────────────────────────────
+
+class Organization(Base):
+    __tablename__ = "organizations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(150), nullable=False)
+    org_type = Column(String(20), nullable=False)   # education | business
+    slug = Column(String(100), unique=True, index=True, nullable=False)
+    is_active = Column(Boolean, default=True)
+    settings_data = Column(JSON, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    departments = relationship("Department", back_populates="organization", cascade="all, delete-orphan")
+    members = relationship("OrganizationMember", back_populates="organization", cascade="all, delete-orphan")
+    org_workspaces = relationship("OrgWorkspace", back_populates="organization", cascade="all, delete-orphan")
+    org_audit_logs = relationship("OrgAuditLog", back_populates="organization", cascade="all, delete-orphan")
+
+
+class Department(Base):
+    __tablename__ = "departments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    parent_id = Column(Integer, ForeignKey("departments.id", ondelete="SET NULL"), nullable=True)
+    name = Column(String(100), nullable=False)
+    dept_type = Column(String(50), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    organization = relationship("Organization", back_populates="departments")
+    children = relationship("Department", backref="parent", remote_side=[id])
+    members = relationship("OrganizationMember", back_populates="department")
+
+
+class RoleTemplate(Base):
+    __tablename__ = "role_templates"
+
+    id = Column(Integer, primary_key=True, index=True)
+    portal_type = Column(String(20), nullable=False)   # education | business
+    role_name = Column(String(50), nullable=False)
+    display_name = Column(String(100), nullable=False)
+    default_permissions = Column(JSON, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class OrganizationRole(Base):
+    __tablename__ = "organization_roles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    template_id = Column(Integer, ForeignKey("role_templates.id", ondelete="SET NULL"), nullable=True)
+    custom_permissions = Column(JSON, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    organization = relationship("Organization")
+    template = relationship("RoleTemplate")
+    members = relationship("OrganizationMember", back_populates="org_role")
+
+
+class OrganizationMember(Base):
+    __tablename__ = "organization_members"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    department_id = Column(Integer, ForeignKey("departments.id", ondelete="SET NULL"), nullable=True)
+    org_role_id = Column(Integer, ForeignKey("organization_roles.id", ondelete="SET NULL"), nullable=True)
+    is_active = Column(Boolean, default=True)
+    joined_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User")
+    organization = relationship("Organization", back_populates="members")
+    department = relationship("Department", back_populates="members")
+    org_role = relationship("OrganizationRole", back_populates="members")
+
+
+class Permission(Base):
+    __tablename__ = "permissions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    permission_key = Column(String(100), unique=True, index=True, nullable=False)
+    description = Column(String(255), nullable=True)
+    category = Column(String(50), nullable=True)
+
+
+class RolePermission(Base):
+    __tablename__ = "role_permissions"
+
+    role_id = Column(Integer, ForeignKey("organization_roles.id", ondelete="CASCADE"), primary_key=True)
+    permission_id = Column(Integer, ForeignKey("permissions.id", ondelete="CASCADE"), primary_key=True)
+
+    role = relationship("OrganizationRole")
+    permission = relationship("Permission")
+
+
+class UserRoleAssignment(Base):
+    __tablename__ = "user_role_assignments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    role_id = Column(Integer, ForeignKey("organization_roles.id", ondelete="CASCADE"), nullable=False)
+    assigned_at = Column(DateTime, default=datetime.utcnow)
+    assigned_by = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+
+    user = relationship("User", foreign_keys=[user_id])
+    organization = relationship("Organization")
+    role = relationship("OrganizationRole")
+
+
+class OrgWorkspace(Base):
+    __tablename__ = "org_workspaces"
+
+    id = Column(Integer, primary_key=True, index=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    workspace_id = Column(Integer, ForeignKey("workspaces.id", ondelete="CASCADE"), nullable=False)
+    is_public_in_org = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    organization = relationship("Organization", back_populates="org_workspaces")
+    workspace = relationship("Workspace")
+
+
+class DocumentACL(Base):
+    __tablename__ = "document_acl"
+
+    id = Column(Integer, primary_key=True, index=True)
+    document_id = Column(Integer, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    classification = Column(String(30), default="organization")
+    # public | organization | department | restricted | highly_confidential
+    allowed_roles = Column(JSON, nullable=True)
+    allowed_user_ids = Column(JSON, nullable=True)
+    approval_status = Column(String(20), default="draft")
+    # draft | review | approved | rejected | revoked
+    approved_by = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    approved_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    document = relationship("Document")
+    organization = relationship("Organization")
+    approver = relationship("User", foreign_keys=[approved_by])
+
+
+class RAGIndexRegistry(Base):
+    __tablename__ = "rag_index_registry"
+
+    id = Column(Integer, primary_key=True, index=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    workspace_id = Column(Integer, ForeignKey("workspaces.id", ondelete="CASCADE"), nullable=False)
+    index_path = Column(String(500), nullable=False)
+    index_version = Column(Integer, default=1)
+    doc_count = Column(Integer, default=0)
+    last_updated = Column(DateTime, default=datetime.utcnow)
+    is_active = Column(Boolean, default=True)
+
+    organization = relationship("Organization")
+    workspace = relationship("Workspace")
+
+
+class OrgAuditLog(Base):
+    __tablename__ = "org_audit_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    action = Column(String(100), nullable=False)
+    resource_type = Column(String(50), nullable=True)
+    resource_id = Column(String(100), nullable=True)
+    details = Column(JSON, nullable=True)
+    ip_address = Column(String(50), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User")
+    organization = relationship("Organization", back_populates="org_audit_logs")
+
+
+class IngestionJob(Base):
+    __tablename__ = "ingestion_jobs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    document_id = Column(Integer, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False)
+    organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=True)
+    status = Column(String(20), default="pending")   # pending | running | done | failed
+    started_at = Column(DateTime, nullable=True)
+    completed_at = Column(DateTime, nullable=True)
+    error_message = Column(Text, nullable=True)
+
+    document = relationship("Document")
+    organization = relationship("Organization")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 #  Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 

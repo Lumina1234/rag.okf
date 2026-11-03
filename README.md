@@ -40,6 +40,15 @@ This platform provides two dedicated, isolated workspaces alongside mobile and w
 - Connects corporate users on the go via an interactive Telegram Bot.
 - Query workspaces, upload documents, check analytics, and manage sessions securely from mobile.
 
+### 6. 🔐 Multi-Organization Security & Governance Layer
+- **Dual Portal Architecture**:
+  - **🎓 Education Portal**: Tailored for Universities, Colleges, Academic Departments (CSE, AI&DS, ECE), Principals, HODs, Faculty, and Students.
+  - **🏢 Business Portal**: Tailored for Enterprises, Management, Departments (HR, Finance, Sales, Marketing), and Employees.
+- **14 Built-In Role Templates**: 7 Education profiles + 7 Business profiles mapped to granular capability permissions.
+- **Document ACL & Classification**: Five-tier classification (`public`, `organization`, `department`, `restricted`, `highly_confidential`) with approval/revocation workflows.
+- **Isolated Vector Registries & Storage**: Completely isolated FAISS indexes stored under `backend/vector_db/{edu|biz}/{org_id}/{workspace_id}/faiss_index/`.
+- **Deny-by-Default Secure RAG Adapter**: Wraps the core RAG engine, enforcing organization membership, workspace resolution, and document ACL allow-lists before context assembly.
+
 ---
 
 ## 🏗️ Architecture & Technology Stack

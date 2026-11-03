@@ -54,6 +54,16 @@ class Settings(BaseSettings):
     DATABASE_DIR: Path = BASE_DIR / "database"
     MODELS_DIR: Path = BASE_DIR / "models"
     REPORTS_DIR: Path = BASE_DIR / "reports"
+    ORG_STORAGE_DIR: Path = BASE_DIR / "knowledge_storage"
+    MAX_UPLOAD_SIZE_MB: int = 50
+    ALLOWED_MIME_TYPES: list = [
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "text/plain",
+        "text/csv",
+    ]
 
     # ── Database ─────────────────────────────────────────────────────────────
     @property
@@ -105,6 +115,7 @@ _dirs = [
     settings.DATABASE_DIR,
     settings.MODELS_DIR,
     settings.REPORTS_DIR,
+    settings.ORG_STORAGE_DIR,
 ]
 for _d in _dirs:
     _d.mkdir(parents=True, exist_ok=True)

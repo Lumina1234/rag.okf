@@ -55,6 +55,16 @@ async def lifespan(app: FastAPI):
     await init_db()
     logger.info("Database initialised.")
 
+    # Seed role templates for Education and Business portals
+    try:
+        from security_layer.role_service import seed_role_templates
+        from core.database import AsyncSessionLocal
+        async with AsyncSessionLocal() as seed_db:
+            await seed_role_templates(seed_db)
+            logger.info("Role templates seeded.")
+    except Exception as e:
+        logger.warning(f"Role template seeding skipped: {e}")
+
     # Enable WAL mode for SQLite to allow concurrent reads/writes
     from core.database import engine
     from sqlalchemy import text
@@ -127,6 +137,7 @@ from api.chat import router as chat_router
 from api.analytics import router as analytics_router
 from api.system import router as system_router
 from api.summarize import router as summarize_router
+from api.organizations import router as org_router
 
 app.include_router(auth_router,       prefix="/api")
 app.include_router(workspaces_router, prefix="/api")
@@ -135,6 +146,7 @@ app.include_router(chat_router,       prefix="/api")
 app.include_router(analytics_router,  prefix="/api")
 app.include_router(system_router,     prefix="/api")
 app.include_router(summarize_router,  prefix="/api")
+app.include_router(org_router,        prefix="/api")
 
 # ── Static file serving (charts + frontend build) ──────────────────────────
 app.mount("/charts", StaticFiles(directory=str(settings.CHARTS_DIR)), name="charts")
