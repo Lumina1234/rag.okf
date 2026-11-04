@@ -1,0 +1,215 @@
+================================================================================
+ACME ENTERPRISE SOLUTIONS — INTERNAL EMAIL ARCHIVE (Q1-Q3 2026)
+CONFIDENTIAL & PROPRIETARY — INTERNAL USE ONLY
+================================================================================
+
+EMAIL THREAD 1: CLOUD INFRASTRUCTURE & VENDOR SELECTION
+--------------------------------------------------------------------------------
+From: Sarah Chen <sarah.chen@acmecorp.com>
+To: Marcus Vance <marcus.vance@acmecorp.com>, Executive Team <exec-team@acmecorp.com>
+Date: Thursday, March 12, 2026, 09:45 AM
+Subject: Final Decision: Project Horizon Cloud Provider & Vendor Selection
+
+Hi Marcus and Team,
+
+Following our 6-week technical evaluation between AWS, Google Cloud, and Azure, the Engineering Architecture Committee has finalized the vendor selection for "Project Horizon" (our enterprise ERP database migration).
+
+Key points from the evaluation:
+1. Selected Vendor: Apex Cloud Solutions (Certified Tier-1 AWS Partner).
+2. Approved Contract Budget: $385,000 for FY2026 (including $65,000 for 24/7 dedicated enterprise support).
+3. Migration Timeline:
+   - Phase 1 (Staging & Schema conversion): April 15 – May 30, 2026.
+   - Phase 2 (Data replication & stress testing): June 1 – July 10, 2026.
+   - Cutover Date: Saturday, July 18, 2026, at 02:00 UTC (expected 4 hours of maintenance window).
+4. Uptime SLA: 99.99% monthly availability with financial penalty credits if downtime exceeds 4.3 minutes per month.
+5. Primary Technical Contact at Apex: Alex Rivera <alex.rivera@apexcloud.com>, Lead Cloud Solutions Architect.
+
+Please reply with final sign-off by this Friday at 5:00 PM EST so legal can countersign the Master Services Agreement (MSA).
+
+Best regards,
+Sarah Chen
+Chief Technology Officer (CTO)
+Acme Enterprise Solutions
+Office: Building B, Suite 402 | Phone: +1 (555) 234-8901
+
+
+REPLY TO THREAD 1:
+--------------------------------------------------------------------------------
+From: Marcus Vance <marcus.vance@acmecorp.com>
+To: Sarah Chen <sarah.chen@acmecorp.com>, Executive Team <exec-team@acmecorp.com>
+Date: Thursday, March 12, 2026, 02:15 PM
+Subject: Re: Final Decision: Project Horizon Cloud Provider & Vendor Selection
+
+Sarah,
+
+Finance has reviewed the Apex Cloud Solutions proposal. The $385,000 CapEx allocation is approved under Cost Center 4100 (IT Operations). 
+
+Please ensure the payment schedule is structured as:
+- 30% upon contract execution ($115,500)
+- 40% upon successful completion of Phase 1 milestone verification ($154,000)
+- 30% retention payable 30 days post-cutover verification ($115,500)
+
+Approved.
+
+Marcus Vance
+Chief Financial Officer (CFO)
+Acme Enterprise Solutions
+
+
+================================================================================
+EMAIL THREAD 2: HUMAN RESOURCES — HYBRID WORK & LEAVE POLICY UPDATE
+--------------------------------------------------------------------------------
+From: Priya Patel <priya.patel@acmecorp.com>
+To: All Employees <all-staff@acmecorp.com>
+Date: Monday, May 4, 2026, 10:00 AM
+Subject: IMPORTANT: Updated Global Hybrid Work Policy & Leave Rollover Rules (Effective July 1, 2026)
+
+Dear Acme Team Members,
+
+After extensive feedback from our department heads and employee survey, the Senior Leadership Team has approved the revised Global Workplace Policy:
+
+1. Hybrid Work Attendance:
+   - Standard Schedule: 3 mandatory in-office days per week (Tuesday, Wednesday, and Thursday).
+   - Core Collaborative Hours: 10:00 AM – 3:00 PM local time.
+   - Flexible Remote Days: Mondays and Fridays may be worked remotely with team lead approval.
+   - Fully remote exemptions require written approval from your Vice President and People Operations.
+
+2. Paid Time Off (PTO) & Annual Rollover:
+   - Annual PTO Entitlement: 22 days per calendar year for full-time employees.
+   - Maximum Rollover: A maximum of 5 unused PTO days can be rolled over into 2027.
+   - Rollover Deadline: Any rolled-over days must be utilized by March 31, 2027, or they will lapse.
+   - Payout Policy: Acme Corporation does not provide cash payouts for unused vacation balances, except where required by local statutory labor law.
+
+3. Health & Wellness Stipend:
+   - Every full-time employee is eligible for an annual health & wellness reimbursement of $600.
+   - Eligible expenses include gym memberships, ergonomic office chairs, mental wellness apps, and fitness trackers.
+   - Submit receipts via the Expensify portal under category "Employee Wellness" by November 30, 2026.
+
+If you have questions regarding department-specific accommodations, please email hr-benefits@acmecorp.com.
+
+Warm regards,
+Priya Patel
+Vice President, People & Culture
+Acme Enterprise Solutions
+
+
+================================================================================
+EMAIL THREAD 3: SALES & REVENUE PERFORMANCE — Q2 RESULTS & NEW ACQUISITION
+--------------------------------------------------------------------------------
+From: David Miller <david.miller@acmecorp.com>
+To: Executive Team <exec-team@acmecorp.com>, Sales All <sales-team@acmecorp.com>
+Date: Wednesday, July 8, 2026, 04:30 PM
+Subject: Q2 2026 Sales Wrap-up: New Record ARR & Major Enterprise Contract Won
+
+Team,
+
+I am thrilled to announce our official Q2 2026 sales figures:
+
+1. Revenue Performance:
+   - Q2 Target: $4,200,000
+   - Actual Booked Revenue: $4,685,000 (111.5% of quarterly quota, representing +16.2% YoY growth).
+   - Top Performing Region: North America ($2,410,000), followed by EMEA ($1,425,000) and APAC ($850,000).
+
+2. Landmark Enterprise Contract:
+   - Client: Nordic Retail Group (NRG)
+   - Contract Type: 3-Year Multi-Year SaaS Agreement
+   - Total Contract Value (TCV): $1,850,000 ($616,666 Annual Recurring Revenue / ARR).
+   - Deal Lead: Jennifer Morales (Senior Enterprise Account Executive, EMEA).
+   - Scope: 12,000 user licenses across 450 retail locations in Denmark, Sweden, and Norway.
+   - Expected Go-Live: September 15, 2026.
+
+3. Sales SPIF & Presidents Club:
+   - Congratulations to Jennifer Morales and Kevin Zhang for qualifying for the 2026 Presidents Club trip to Maui, Hawaii.
+
+Let's maintain this momentum as we head into Q3 with our primary focus on the Financial Services vertical.
+
+Best,
+David Miller
+Director of Global Enterprise Sales
+Acme Enterprise Solutions
+
+
+================================================================================
+EMAIL THREAD 4: CYBERSECURITY & IT HELPDESK SLA ESCALATION
+--------------------------------------------------------------------------------
+From: Thomas Wright <thomas.wright@acmecorp.com>
+To: IT Support Team <it-support@acmecorp.com>, Security Operations <soc@acmecorp.com>
+Date: Tuesday, August 18, 2026, 11:15 AM
+Subject: Updated Incident Response SLAs and Customer Refund Approval Thresholds
+
+Team,
+
+Please review and adhere strictly to the following updated operational protocols:
+
+1. Security Incident Response Response SLAs:
+   - Severity 1 (Critical / Data Breach / Total Outage):
+     * Acknowledgment SLA: Within 15 minutes (24/7/365).
+     * Executive Briefing: Within 45 minutes of verification.
+     * Target Resolution / Mitigation: Under 2 hours.
+   - Severity 2 (Major Service Degradation):
+     * Acknowledgment SLA: Within 1 hour.
+     * Target Resolution: Within 6 hours.
+   - Severity 3 (Minor Bug / General IT Ticket):
+     * Acknowledgment SLA: Within 4 business hours.
+     * Target Resolution: 2 business days.
+
+2. Customer Financial Refund Approval Limits:
+   - Tier 1 Support Agent: Authorized up to $250 credit per transaction.
+   - Team Lead / Operations Manager: Authorized up to $2,500.
+   - Department Director (David Miller / Thomas Wright): Authorized up to $10,000.
+   - Anything exceeding $10,000 requires direct written approval from CFO Marcus Vance.
+
+3. Mandatory Multi-Factor Authentication (MFA):
+   - All employees must transition from SMS 2FA to FIDO2 hardware keys or Microsoft Authenticator by September 30, 2026.
+   - SMS 2FA will be permanently deprecated on October 1, 2026.
+
+Regards,
+Thomas Wright
+Head of IT Infrastructure & Cyber Defense
+Acme Enterprise Solutions
+Security Hotline: +1 (555) 911-ACME
+
+
+================================================================================
+EMAIL THREAD 5: IT PROVISIONING — GOOGLE WORKSPACE (GMAIL) ACCOUNTS & SYSTEM PASSWORDS
+--------------------------------------------------------------------------------
+From: Acme IT Helpdesk <it-provisioning@acmecorp.com>
+To: Alex Morgan <alex.morgan.personal@gmail.com>
+Cc: Department Lead <dev-leads@acmecorp.com>
+Date: Wednesday, September 2, 2026, 08:30 AM
+Subject: Confidential: Your Acme Corporate Google Workspace / Gmail Account & Temporary Passwords
+
+Dear Alex,
+
+Welcome to Acme Enterprise Solutions! Your corporate Google Workspace account and system credentials have been generated. Please use the following details to complete your initial login:
+
+1. Corporate Google Workspace (Gmail) Login:
+   - Primary Business Email: alex.morgan@acmecorp.com
+   - Alternative Gmail Alias: alex.m.devops@gmail.com (Internal Forwarder)
+   - Initial Temporary Password: TempPassword#2026!
+   - Note: You will be prompted to change this temporary password on your first sign-in. Your new password must contain at least 12 characters, including one special symbol and one number.
+
+2. Corporate Office Wi-Fi Credentials:
+   - Network SSID: Acme-Enterprise-Secure-5G
+   - Wi-Fi Pre-Shared Security Key: BlueOak$WiFi2026
+   - Guest Wi-Fi SSID: Acme-Guest (Password: WelcomeToAcme!)
+
+3. Internal Developer Staging Database Access:
+   - Database Host: db-staging.internal.acme.net (Port: 5432)
+   - Database Name: acme_analytics_staging
+   - Read-Only User: analyst_staging_user
+   - Staging Database Password: DB_ReadStaging_99#Key
+
+4. Corporate VPN Gateway:
+   - Gateway Address: vpn.acmecorp.com
+   - Group Name: Engineering-Remote
+   - Pre-Shared IPSec Group Password: VPN-AcmeCorp-Key88!
+
+If you experience issues during password reset or 2FA setup, contact the IT Service Desk directly at extension 4040 or email it-support@acmecorp.com.
+
+Security Reminder: Do not share these credentials over unencrypted channels.
+
+Best regards,
+Acme Global IT Operations Team
+Email: it-provisioning@acmecorp.com
+Help Desk: +1 (555) 019-4321
