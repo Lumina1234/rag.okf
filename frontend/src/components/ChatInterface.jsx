@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Send, Trash2, Sparkles, MessageSquare, Bot, ChevronDown, 
+  Send, Square, Trash2, Sparkles, MessageSquare, Bot, ChevronDown, 
   Search, Paperclip, Pin, Clock, Globe, Plus, Moon, Sun, BarChart3 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -33,6 +33,7 @@ const ChatInterface = () => {
 
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   // Active session messages
   const activeSession = sessions.find(s => s.id === activeSessionId) || sessions[0];
@@ -173,6 +174,14 @@ const ChatInterface = () => {
     }));
   };
 
+    const handleStopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setIsStreaming(false);
+  };
+
   const handleSend = async (questionText = input) => {
     if (!questionText.trim() || !activeWorkspace || isStreaming) return;
 
@@ -263,10 +272,14 @@ const ChatInterface = () => {
     let currentTraces = [];
     let assistantText = '';
 
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     await streamChat({
       question: questionText,
       workspaceId: activeWorkspace.id,
       model: selectedModel,
+      signal: abortController.signal,
       onSources: (sources) => {
         currentSources = sources;
         updateActiveSessionMessages(prev => {
@@ -307,9 +320,11 @@ const ChatInterface = () => {
         });
       },
       onDone: () => {
+        abortControllerRef.current = null;
         setIsStreaming(false);
       },
       onError: (err) => {
+        abortControllerRef.current = null;
         console.error('Streaming error:', err);
         updateActiveSessionMessages(prev => [
           ...prev.slice(0, -1),
@@ -569,6 +584,8 @@ const ChatInterface = () => {
                 role={msg.role} 
                 content={msg.content} 
                 sources={msg.sources} 
+                traces={msg.traces}
+                isStreaming={isStreaming && idx === messages.length - 1}
                 chart={msg.chart}
                 raw_data={msg.raw_data}
                 onRegenerate={handleRegenerate}
@@ -640,16 +657,29 @@ const ChatInterface = () => {
                 rows={1}
                 disabled={!activeWorkspace || isStreaming}
               />
-              <button 
-                onClick={() => handleSend()}
-                disabled={!input.trim() || isStreaming || !activeWorkspace}
-                style={{ 
-                  background: '#6366f1', color: '#fff', border: 'none', borderRadius: '12px', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
-                  opacity: (!input.trim() || isStreaming || !activeWorkspace) ? 0.5 : 1
-                }}
-              >
-                <Send size={18} />
-              </button>
+              {isStreaming ? (
+                <button 
+                  onClick={handleStopGeneration}
+                  title="Stop generation"
+                  style={{ 
+                    background: '#ef4444', color: '#fff', border: 'none', borderRadius: '12px', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                    boxShadow: '0 0 12px rgba(239, 68, 68, 0.4)'
+                  }}
+                >
+                  <Square size={16} fill="currentColor" />
+                </button>
+              ) : (
+                <button 
+                  onClick={() => handleSend()}
+                  disabled={!input.trim() || !activeWorkspace}
+                  style={{ 
+                    background: '#6366f1', color: '#fff', border: 'none', borderRadius: '12px', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                    opacity: (!input.trim() || !activeWorkspace) ? 0.5 : 1
+                  }}
+                >
+                  <Send size={18} />
+                </button>
+              )}
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>

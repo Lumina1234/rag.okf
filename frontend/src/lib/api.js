@@ -60,7 +60,7 @@ export const chatAPI = {
     api.post('/chat/clear', null, { params: { workspace_id: workspaceId, chat_type: chatType } }),
 };
 
-export async function streamChat({ question, workspaceId, model, onSources, onTrace, onToken, onDone, onError }) {
+export async function streamChat({ question, workspaceId, model, signal, onSources, onTrace, onToken, onDone, onError }) {
   const token = localStorage.getItem('token');
   let buffer = '';
 
@@ -72,6 +72,7 @@ export async function streamChat({ question, workspaceId, model, onSources, onTr
         Authorization: token ? `Bearer ${token}` : '',
       },
       body: JSON.stringify({ question, workspace_id: workspaceId, model, stream: true }),
+      signal,
     });
 
     if (!response.ok) {
@@ -191,6 +192,10 @@ export async function streamChat({ question, workspaceId, model, onSources, onTr
 
     onDone?.();
   } catch (err) {
+    if (err.name === 'AbortError') {
+      onDone?.();
+      return;
+    }
     onError?.(err.message);
   }
 }

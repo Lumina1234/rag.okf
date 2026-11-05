@@ -99,12 +99,12 @@ async def chat_stream(
             "temperature": temperature,
             "num_predict": max_tokens,
             "num_ctx": num_ctx,
-            "num_gpu": 18,
         },
     }
 
     try:
-        async with httpx.AsyncClient(timeout=120.0) as client:
+        client_timeout = httpx.Timeout(connect=30.0, read=300.0, write=60.0, pool=30.0)
+        async with httpx.AsyncClient(timeout=client_timeout) as client:
             async with client.stream(
                 "POST",
                 f"{settings.OLLAMA_URL}/api/chat",

@@ -18,7 +18,7 @@ const cleanContent = (text) => {
   return cleaned.trim();
 };
 
-const MessageBubble = ({ role, content, sources, chart, raw_data, onRegenerate }) => {
+const MessageBubble = ({ role, content, sources, traces, isStreaming, chart, raw_data, onRegenerate }) => {
   const isUser = role === 'user';
   const displayContent = isUser ? content : cleanContent(content);
   const uniqueSources = Array.from(
@@ -125,10 +125,27 @@ const MessageBubble = ({ role, content, sources, chart, raw_data, onRegenerate }
                   {displayContent}
                 </ReactMarkdown>
               ) : (
-                <div style={{ display: 'inline-flex', gap: '6px', padding: '8px 0', alignItems: 'center' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#818cf8', display: 'inline-block', animation: 'pulse 1.2s infinite ease-in-out' }}></span>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#818cf8', display: 'inline-block', animation: 'pulse 1.2s infinite ease-in-out 0.2s' }}></span>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#818cf8', display: 'inline-block', animation: 'pulse 1.2s infinite ease-in-out 0.4s' }}></span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '8px 0' }}>
+                  <div style={{ display: 'inline-flex', gap: '8px', alignItems: 'center' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#818cf8', display: 'inline-block', animation: 'pulse 1.2s infinite ease-in-out' }}></span>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#818cf8', display: 'inline-block', animation: 'pulse 1.2s infinite ease-in-out 0.2s' }}></span>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#818cf8', display: 'inline-block', animation: 'pulse 1.2s infinite ease-in-out 0.4s' }}></span>
+                    <span style={{ fontSize: '13px', color: '#a5b4fc', fontWeight: '500' }}>
+                      {traces && traces.length > 0 
+                        ? traces[traces.length - 1].message 
+                        : 'Processing query...'}
+                    </span>
+                  </div>
+                  {traces && traces.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '4px' }}>
+                      {traces.map((t, idx) => (
+                        <div key={idx} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '6px', padding: '3px 8px', fontSize: '11px', color: '#c7d2fe' }}>
+                          <span style={{ color: '#10b981' }}>✓</span>
+                          <span>{t.message || t.step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
