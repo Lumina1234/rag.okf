@@ -102,6 +102,7 @@ async def chat_stream(
             "temperature": temperature,
             "num_predict": max_tokens,
             "num_ctx": num_ctx,
+            "num_thread": 6,
         },
     }
 

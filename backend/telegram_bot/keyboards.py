@@ -130,3 +130,18 @@ def pdf_list_keyboard(pdfs: list) -> InlineKeyboardMarkup:
     ]
     buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="action:back")])
     return InlineKeyboardMarkup(buttons)
+
+
+def model_keyboard(current_model: str = "gemma4:12b") -> InlineKeyboardMarkup:
+    models = [
+        ("gemma4:12b", "gemma4:12b (Default / Deep)", "🧠"),
+        ("qwen3:4b", "qwen3:4b (Fast ~5s / GPU)", "⚡"),
+        ("gemma3:4b", "gemma3:4b (Fast ~6s / GPU)", "🚀"),
+        ("tinyllama:latest", "tinyllama (Instant ~1s)", "⚡"),
+    ]
+    buttons = []
+    for mod_id, mod_label, icon in models:
+        mark = " ✅" if mod_id == current_model else ""
+        buttons.append([InlineKeyboardButton(f"{icon} {mod_label}{mark}", callback_data=f"sel_model:{mod_id}")])
+    buttons.append([InlineKeyboardButton("❌ Close", callback_data="cancel")])
+    return InlineKeyboardMarkup(buttons)

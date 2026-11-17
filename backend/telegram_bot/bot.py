@@ -8,6 +8,7 @@ from core.config import settings
 from telegram_bot.handlers import (
     start_handler,
     help_handler,
+    model_handler,
     link_handler,
     upload_handler,
     download_handler,
@@ -33,6 +34,7 @@ async def post_init(application: Application) -> None:
     commands = [
         BotCommand("start", "Welcome & register"),
         BotCommand("help", "Show help menu"),
+        BotCommand("model", "Change AI model (Fast GPU / Deep)"),
         BotCommand("link", "Link your account by email"),
         BotCommand("download", "Download a PDF uploaded by an admin"),
         BotCommand("upload", "Upload is handled from the website"),
@@ -61,6 +63,7 @@ def build_application() -> Application:
 
     app.add_handler(CommandHandler("start", start_handler))
     app.add_handler(CommandHandler("help", help_handler))
+    app.add_handler(CommandHandler("model", model_handler))
     app.add_handler(CommandHandler("link", link_handler))
     app.add_handler(CommandHandler("upload", upload_handler))
     app.add_handler(CommandHandler("download", download_handler))

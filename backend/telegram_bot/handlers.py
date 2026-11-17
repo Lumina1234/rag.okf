@@ -37,6 +37,7 @@ from telegram_bot.keyboards import (
     subject_dashboard_keyboard,
     pdf_list_keyboard,
     answer_type_keyboard,
+    model_keyboard,
 )
 from telegram_bot.states import get_session, set_session, ConversationState
 
@@ -407,6 +408,29 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         welcome,
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=main_menu_keyboard(),
+    )
+
+
+
+async def model_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show model selection menu to toggle between fast GPU models and deep CPU models."""
+    await _register_user(update)
+    tg_id = update.effective_user.id
+    session = get_session(tg_id)
+    current_model = session.get("preferred_model") or settings.DEFAULT_LLM_MODEL
+
+    msg = (
+        f"🤖 *AI Model Settings*\n\n"
+        f"Current model: `{current_model}`\n\n"
+        f"• *qwen3:4b* ⚡ — *Blazing Fast* (~4-7s, runs 100% on GPU)\n"
+        f"• *gemma3:4b* 🚀 — *Fast & Balanced* (~5-8s on GPU)\n"
+        f"• *gemma4:12b* 🧠 — *Deep Reasoning* (takes ~45-60s on CPU)\n\n"
+        f"Tap a button below to switch:"
+    )
+    await update.message.reply_text(
+        msg,
+        parse_mode=ParseMode.MARKDOWN,
+        reply_markup=model_keyboard(current_model)
     )
 
 
@@ -805,6 +829,17 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = query.data
     tg_id = update.effective_user.id
     session = get_session(tg_id)
+
+    if data.startswith("sel_model:"):
+        chosen = data.split(":", 1)[1]
+        session = get_session(tg_id)
+        session["preferred_model"] = chosen
+        speed_note = "⚡ Running 100% on GPU (~4-7s response time)!" if ("4b" in chosen or "tiny" in chosen) else "🧠 Running deep 12B model."
+        await query.edit_message_text(
+            f"✅ *Model switched to* `{chosen}`\n\n{speed_note}",
+            parse_mode=ParseMode.MARKDOWN
+        )
+        return
 
     if data == "cancel":
         set_session(tg_id, state=ConversationState.IDLE)
@@ -1276,7 +1311,8 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     state = session.get("state")
     if state == ConversationState.WAITING_QUESTION:
         session["state"] = ConversationState.IDLE
-        await _do_answer_question(update, context, text, mode="qa", answer_style="detailed")
+        _wants_detail = bool(re.search(r'\b(detail|detailed|explain in detail|elaborate|syllabus|step by step|full)\b', text.lower()))
+        await _do_answer_question(update, context, text, mode="qa", answer_style="detailed" if _wants_detail else "short")
         return
 
     if state == ConversationState.WAITING_SUMMARY_INPUT:
@@ -1331,7 +1367,8 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # Direct answer for any standard question
-    await _do_answer_question(update, context, text, mode="qa", answer_style="detailed")
+    _wants_detail = bool(re.search(r'\b(detail|detailed|explain in detail|elaborate|syllabus|step by step|full)\b', text.lower()))
+    await _do_answer_question(update, context, text, mode="qa", answer_style="detailed" if _wants_detail else "short")
 
 
 async def _get_current_workspace(telegram_id: int, session: dict) -> Optional[Workspace]:
@@ -1557,8 +1594,10 @@ async def _do_answer_question(
     # Build prompt using the standard RAG pipeline
     system, assistant_context, user_prompt = _build_rag_prompt(question, filtered_results, workspace_type)
 
-    # Use configured default LLM model (gemma4:12b)
-    model = settings.DEFAULT_LLM_MODEL
+    # Use user-selected model or default LLM model
+    _tg_id = update.effective_user.id if update.effective_user else None
+    _user_sess = get_session(_tg_id) if _tg_id else {}
+    model = _user_sess.get("preferred_model") or settings.DEFAULT_LLM_MODEL
 
     import time
     import re as _re
