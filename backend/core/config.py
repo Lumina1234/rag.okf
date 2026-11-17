@@ -43,6 +43,10 @@ class Settings(BaseSettings):
         "http://172.21.22.14:30001",
         "https://172.21.22.14:30000",
         "http://172.21.22.14:30000",
+        "https://172.21.17.121:30001",
+        "http://172.21.17.121:30001",
+        "https://172.21.17.121:30000",
+        "http://172.21.17.121:30000",
         "https://172.27.0.1:30001",
         "http://172.27.0.1:30001",
         "https://192.168.1.3:30001",
@@ -78,8 +82,8 @@ class Settings(BaseSettings):
     OLLAMA_URL: str = "http://localhost:11434"
     DEFAULT_LLM_MODEL: str = "gemma4:12b"
     LLM_TEMPERATURE: float = 0.1
-    LLM_MAX_TOKENS: int = 2048
-    LLM_NUM_CTX: int = 4096
+    LLM_MAX_TOKENS: int = 1536
+    LLM_NUM_CTX: int = 2048
 
     # ── Embeddings ───────────────────────────────────────────────────────────
     EMBEDDING_MODEL: str = "BAAI/bge-m3"

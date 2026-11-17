@@ -1594,7 +1594,7 @@ async def _do_answer_question(
     last_len = 0
 
     # Increased token limits: 1024 for short answers, 2560 for detailed answers
-    token_limit = 1024 if answer_style == "short" else 2560
+    token_limit = 512 if answer_style == "short" else 1536
 
     async for token in ollama_client.chat_stream(
         prompt=user_prompt,
