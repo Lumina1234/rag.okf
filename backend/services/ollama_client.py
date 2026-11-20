@@ -98,11 +98,13 @@ async def chat_stream(
         "messages": messages,
         "stream": True,
         "think": False,
+        "keep_alive": -1,  # Keep model loaded permanently — avoids 40-60s reload on every query
         "options": {
             "temperature": temperature,
             "num_predict": max_tokens,
             "num_ctx": num_ctx,
             "num_thread": 6,
+            "num_gpu": 10,       # 10 GPU layers (~3.5 GB VRAM) — avoids 2.1 GB CUDA_Host OOM with full offload
         },
     }
 
